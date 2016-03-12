@@ -1,0 +1,29 @@
+development:
+  adapter:  mysql2
+  host:     127.0.0.1
+  encoding: utf8
+  database: travel_ws_development
+  pool:     5
+  username: root
+  password:
+  reconnect: false
+
+test:
+  adapter:  mysql2
+  host:     127.0.0.1
+  encoding: utf8
+  database: travel_ws_test
+  pool:     5
+  username: root
+  password:
+  reconnect: false
+
+production:
+  adapter:  mysql2
+  host:     127.0.0.1
+  encoding: utf8
+  database: travel_ws_production
+  pool:     5
+  username: root
+  password:
+  reconnect: false
