@@ -11,4 +11,16 @@ class ServicesController < ApplicationController
     messages = place.save ? "Successfully!" : place.errors.full_messages
     render soap: messages
   end
+
+  soap_action "is_existed_place",
+    args: {code: :string, name: :string},
+    return: :boolean
+
+  def is_existed_place
+    place = Place.find_by code: params[:code] if params[:code].present?
+    if !place.present? && params[:name].present?
+      place = Place.find_by name: params[:name] unless place.present?
+    end
+    render soap: place.present?
+  end
 end
