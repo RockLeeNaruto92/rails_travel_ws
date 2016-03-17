@@ -36,6 +36,15 @@ class ServicesController < ApplicationController
     render soap: messages
   end
 
+  soap_action "is_existed_tour",
+    args: {code: :string},
+    return: :boolean
+
+  def is_existed_tour
+    tour = Tour.find_by code: params[:code]
+    render soap: tour.present?
+  end
+
   private
   def standarlize_tour_params
     params[:place_code] = params[:place]
