@@ -1,7 +1,7 @@
 class CreateConstracts < ActiveRecord::Migration
   def change
     create_table :constracts do |t|
-      t.string :tour_code
+      t.integer :tour_id
       t.string :customer_id_number
       t.string :company_name
       t.string :company_phone
