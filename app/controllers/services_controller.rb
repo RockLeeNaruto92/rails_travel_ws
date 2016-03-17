@@ -23,4 +23,24 @@ class ServicesController < ApplicationController
     end
     render soap: place.present?
   end
+
+  soap_action "add_new_tour",
+    args: {code: :string, place: :string, sdate: :date,
+      tickets: :integer, cost: :integer, description: :string},
+    return: :string
+
+  def add_new_tour
+    standarlize_tour_params
+    tour = Tour.new params
+    messages = tour.save ? "Successfully!" : tour.errors.full_messages
+    render soap: messages
+  end
+
+  private
+  def standarlize_tour_params
+    params[:place_code] = params[:place]
+    params[:start_date] = params[:sdate]
+    params.delete :place
+    params.delete :sdate
+  end
 end
