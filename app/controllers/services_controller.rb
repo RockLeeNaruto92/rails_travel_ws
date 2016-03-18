@@ -129,6 +129,27 @@ class ServicesController < ApplicationController
     end
   end
 
+  soap_action "delete_tour_by_code",
+    args: {code: :string},
+    return: :string
+
+  def delete_tour_by_code
+    if params[:code].present?
+      tour = Tour.find_by code: params[:code]
+      messages = if tour.present?
+        tour.destroy
+        tour.destroyed? ? I18n.t("action.success") : I18n.t("errors.deletion",
+          model: "tour", attr: "code", value: params[:code])
+      else
+        I18n.t("errors.object_not_exist",
+          model: "tour", attr: "code", value: params[:code])
+      end
+      render soap: messages
+    else
+      render soap: I18n.t("errors.param_not_present", param: "code")
+    end
+  end
+
   private
   def standarlize_params
     params.keys.each do |key|
