@@ -5,5 +5,6 @@ en:
     less_than_attr: "must be less than %{attr}"
     param_not_present: "Param %{param} is required!"
     object_not_exist: "Not exist %{model} with attribute %{attr}: %{value}"
+    deletion: "Can't not exist the object of model %{model} that have attribute %{attr} and value %{value}"
   action:
     success: "Successfully!"
