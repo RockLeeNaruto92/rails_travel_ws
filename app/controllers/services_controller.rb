@@ -114,6 +114,21 @@ class ServicesController < ApplicationController
     render soap: Tour.all.to_json
   end
 
+  soap_action "find_tour_by_code",
+    args: {code: :string},
+    return: :string
+
+  def find_tour_by_code
+    if params[:code].present?
+      tour = Tour.find_by code: params[:code]
+      messages = tour.present? ? tour.to_json : I18n.t("errors.object_not_exist",
+        model: "tour", attr: "code", value: params[:code])
+      render soap: messages
+    else
+      render soap: I18n.t("errors.param_not_present", param: "code")
+    end
+  end
+
   private
   def standarlize_params
     params.keys.each do |key|
