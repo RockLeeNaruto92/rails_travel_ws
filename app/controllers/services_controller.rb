@@ -83,6 +83,23 @@ class ServicesController < ApplicationController
     end
   end
 
+  soap_action "update_tour_information",
+    args: {code: :string, placeID: :integer, startDate: :date,
+      tickets: :integer, cost: :integer, description: :string},
+    return: :string
+
+  def update_tour_information
+    standarlize_params
+    tour = Tour.find_by code: params[:code]
+    if tour.present?
+      messages = tour.update_attributes(params) ? I18n.t("action.success") : tour.errors.full_messages
+      render soap: messages
+    else
+      render soap: I18n.t("errors.object_not_exist",
+        model: "tour", attr: "code", value: params[:code])
+    end
+  end
+
   private
   def standarlize_params
     params.keys.each do |key|
