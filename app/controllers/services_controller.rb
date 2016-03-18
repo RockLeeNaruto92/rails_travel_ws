@@ -70,6 +70,19 @@ class ServicesController < ApplicationController
     end
   end
 
+  soap_action "check_available_tour",
+    args: {tourCode: :string},
+    return: :boolean
+
+  def check_available_tour
+    if params[:tourCode].present?
+      tour = Tour.find_by code: params[:tourCode]
+      render soap: tour.present? && tour.available_tickets > 0
+    else
+      render soap: I18n.t("errors.param_not_present", param: "tourCode")
+    end
+  end
+
   private
   def standarlize_params
     params.keys.each do |key|

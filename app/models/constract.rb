@@ -31,6 +31,6 @@ class Constract < ActiveRecord::Base
   end
 
   def decrease_tour_available_tickets
-    self.tour.update! available_tickets: (self.tour.available_tickets - booking_tickets)
+    self.tour.update! available_tickets: (tour.available_tickets - booking_tickets)
   end
 end
