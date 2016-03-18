@@ -4,5 +4,6 @@ en:
     greater_than: "must be greater than %{number}"
     less_than_attr: "must be less than %{attr}"
     param_not_present: "Param %{param} is required!"
+    object_not_exist: "Not exist %{model} with attribute %{attr}: %{value}"
   action:
     success: "Successfully!"
