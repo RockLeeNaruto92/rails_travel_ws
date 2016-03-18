@@ -100,6 +100,20 @@ class ServicesController < ApplicationController
     end
   end
 
+  soap_action "get_all_places",
+    return: :string
+
+  def get_all_places
+    render soap: Place.all.to_json
+  end
+
+  soap_action "get_all_tours",
+    return: :string
+
+  def get_all_tours
+    render soap: Tour.all.to_json
+  end
+
   private
   def standarlize_params
     params.keys.each do |key|
