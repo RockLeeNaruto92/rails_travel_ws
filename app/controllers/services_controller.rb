@@ -66,7 +66,7 @@ class ServicesController < ApplicationController
     if params[:cityName].present?
       render soap: Tour.where(place: Place.where(city: params[:cityName])).to_json
     else
-      render soap: I18n.t("errors.param_not_present", param: "name")
+      render soap: I18n.t("errors.param_not_present", param: "cityName")
     end
   end
 
