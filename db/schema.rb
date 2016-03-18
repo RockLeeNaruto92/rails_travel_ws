@@ -14,7 +14,7 @@
 ActiveRecord::Schema.define(version: 20160312182936) do
 
   create_table "constracts", force: :cascade do |t|
-    t.string   "tour_code",          limit: 255
+    t.integer  "tour_id",            limit: 4
     t.string   "customer_id_number", limit: 255
     t.string   "company_name",       limit: 255
     t.string   "company_phone",      limit: 255
@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 20160312182936) do
 
   create_table "tours", force: :cascade do |t|
     t.string   "code",              limit: 255
-    t.string   "place_code",        limit: 255
+    t.integer  "place_id",          limit: 4
     t.date     "start_date"
     t.integer  "tickets",           limit: 4
     t.integer  "available_tickets", limit: 4
