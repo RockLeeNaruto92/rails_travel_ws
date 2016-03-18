@@ -3,3 +3,6 @@ en:
     not_integer: "is not Integer number."
     greater_than: "must be greater than %{number}"
     less_than_attr: "must be less than %{attr}"
+    param_not_present: "Param %{param} is required!"
+  action:
+    success: "Successfully!"
