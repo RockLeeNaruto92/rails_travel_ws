@@ -8,7 +8,7 @@ class ServicesController < ApplicationController
 
   def add_new_place
     place = Place.new params
-    messages = place.save ? "Successfully!" : place.errors.full_messages
+    messages = place.save ? I18n.t("action.success") : place.errors.full_messages
     render soap: messages
   end
 
@@ -32,7 +32,7 @@ class ServicesController < ApplicationController
   def add_new_tour
     standarlize_params
     tour = Tour.new params
-    messages = tour.save ? "Successfully!" : tour.errors.full_messages
+    messages = tour.save ? I18n.t("action.success") : tour.errors.full_messages
     render soap: messages
   end
 
@@ -54,8 +54,20 @@ class ServicesController < ApplicationController
   def add_new_constract
     standarlize_params
     constract = Constract.new params
-    messages = constract.save ? "Successfully!" : constract.errors.full_messages
+    messages = constract.save ? I18n.t("action.success") : constract.errors.full_messages
     render soap: messages
+  end
+
+  soap_action "find_tours_by_city",
+    args: {cityName: :string},
+    return: :string
+
+  def find_tours_by_city
+    if params[:cityName].present?
+      render soap: Tour.where(place: Place.where(city: params[:cityName])).to_json
+    else
+      render soap: I18n.t("errors.param_not_present", param: "name")
+    end
   end
 
   private
