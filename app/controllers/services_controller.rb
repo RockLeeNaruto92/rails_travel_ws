@@ -1,5 +1,5 @@
 class ServicesController < ApplicationController
-  soap_service namespace: "urn:travel_ws"
+  soap_service namespace: "urn:travel_ws", wsdl_style: "document"
 
   soap_action "add_new_place",
     args: {code: :string, name: :string, city: :string, country: :string,
@@ -46,16 +46,17 @@ class ServicesController < ApplicationController
   end
 
   soap_action "add_new_constract",
-    args: {tourID: :integer, customerIdNumber: :string,
+    args: {add_new_constract_request: {
+      tourID: :integer, customerIdNumber: :string,
       companyName: :string, companyPhone: :string,
-      companyAddress: :string, bookingTickets: :integer},
-    return: :string
+      companyAddress: :string, bookingTickets: :integer}},
+    return: {result: :string}
 
   def add_new_constract
     standarlize_params
     constract = Constract.new params
     messages = constract.save ? I18n.t("action.success") : constract.errors.full_messages
-    render soap: messages
+    render soap: {result: messages}
   end
 
   soap_action "find_tours_by_city",
