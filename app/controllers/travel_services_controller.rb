@@ -73,15 +73,15 @@ class TravelServicesController < ApplicationController
   end
 
   soap_action "check_available_tour",
-    args: {tourCode: :string},
-    return: :boolean
+    args: {check_available_tour_request: {tourCode: :string}},
+    return: {result: :string}
 
   def check_available_tour
-    if params[:tourCode].present?
-      tour = Tour.find_by code: params[:tourCode]
-      render soap: tour.present? && tour.available_tickets > 0
+    if params[:check_available_tour_request] && params[:check_available_tour_request][:tourCode].present?
+      tour = Tour.find_by code: params[:check_available_tour_request][:tourCode]
+      render soap: {result: (tour.present? && tour.available_tickets > 0).to_s}
     else
-      render soap: I18n.t("errors.param_not_present", param: "tourCode")
+      render soap: {result: I18n.t("errors.param_not_present", param: "tourCode")}
     end
   end
 
