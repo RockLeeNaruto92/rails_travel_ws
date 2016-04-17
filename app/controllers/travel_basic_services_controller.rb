@@ -95,8 +95,12 @@ class TravelBasicServicesController < ApplicationController
   def find_tour_by_code
     if params[:code].present?
       tour = Tour.find_by code: params[:code]
-      messages = tour.present? ? tour.to_json : I18n.t("errors.object_not_exist",
-        model: "tour", attr: "code", value: params[:code])
+      messages = if tour.present?
+        place_params = {place_id: tour.place_id, place_name: tour.place.name}
+        tour.attributes.merge(place_params)
+      else
+        {}
+      end.to_json
       render soap: messages
     else
       render soap: I18n.t("errors.param_not_present", param: "code")
@@ -116,7 +120,7 @@ class TravelBasicServicesController < ApplicationController
           model: "tour", attr: "code", value: params[:code])
       else
         I18n.t("errors.object_not_exist",
-          model: "tour", attr: "code", value: params[:code])
+          model: "tour", attr: "code", value: params[:code]).to_json
       end
       render soap: messages
     else
