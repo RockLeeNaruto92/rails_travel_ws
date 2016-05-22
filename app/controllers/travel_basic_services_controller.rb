@@ -68,14 +68,14 @@ class TravelBasicServicesController < ApplicationController
     end
   end
 
-  soap_action "update_tour_information",
-    args: {code: :string, placeID: :integer, startDate: :date,
+  soap_action "update_tour",
+    args: {id: :integer, code: :string, placeID: :integer, startDate: :date,
       tickets: :integer, cost: :integer, description: :string},
     return: :string
 
-  def update_tour_information
+  def update_tour
     standarlize_params
-    tour = Tour.find_by code: params[:code]
+    tour = Tour.find_by id: params[:id]
     if tour.present?
       messages = tour.update_attributes(params) ? I18n.t("action.success") : tour.errors.full_messages
       render soap: messages
@@ -116,6 +116,14 @@ class TravelBasicServicesController < ApplicationController
     else
       render soap: I18n.t("errors.param_not_present", param: "code")
     end
+  end
+
+  soap_action "get_tour_by_id",
+    args: {id: :integer},
+    return: :string
+
+  def get_tour_by_id
+    render soap: Tour.find(params[:id]).to_json
   end
 
   soap_action "delete_tour_by_code",
