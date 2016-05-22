@@ -12,6 +12,17 @@ class TravelBasicServicesController < ApplicationController
     render soap: messages
   end
 
+  soap_action "update_place",
+    args: {id: :integer, code: :string, name: :string, city: :string, country: :string,
+      address: :string, services: :string, description: :string},
+    return: :string
+
+  def update_place
+    place = Place.find_by id: params[:id]
+    messages = place.update_attributes(params) ? I18n.t("action.success") : place.errors.full_messages
+    render soap: messages
+  end
+
   soap_action "is_existed_place",
     args: {code: :string, name: :string},
     return: :boolean
